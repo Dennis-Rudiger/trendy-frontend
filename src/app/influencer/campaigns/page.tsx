@@ -5,6 +5,35 @@ import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api';
 import CampaignCard from '@/components/CampaignCard';
 
+
+export default async function CampaignListPage() {
+  // Fetch and sanitize data in Server Component
+  const response = await api.get('/campaigns/joined');
+  const campaigns = response.data.map((campaign) => ({
+    ...campaign,
+    deadline: new Date(campaign.deadline).toISOString(), // Convert Date to string
+  }));
+
+  return <ClientCampaignList campaigns={campaigns} />;
+}
+
+// Client Component (separate file)
+'use client';
+import { Campaign } from '@/types';
+
+export function ClientCampaignList({ campaigns }: { campaigns: Campaign[] }) {
+  // Client-side rendering
+  return (
+    <div>
+      {campaigns.map((campaign) => (
+        <div key={campaign._id}>
+          <h2>{campaign.title}</h2>
+          <p>Deadline: {campaign.deadline}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
 export default function CampaignListPage() {
   const { data: campaigns, isLoading } = useQuery({
     queryKey: ['campaigns'],
@@ -24,3 +53,4 @@ export default function CampaignListPage() {
     </div>
   );
 }
+
