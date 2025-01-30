@@ -4,6 +4,7 @@ export type Campaign = {
     title: string;
     deadline: string; // ISO string
     status: 'active' | 'completed';
+    brandID? : string;
   };
   
   export type Submission = {
@@ -11,5 +12,6 @@ export type Campaign = {
     contentLink: string;
     status: 'pending' | 'approved' | 'rejected';
     submissionDate: string; // ISO string
-    influencer?: { email: string };
+    influencerId?: { email: string };
+    campaignID? : string;
   };
