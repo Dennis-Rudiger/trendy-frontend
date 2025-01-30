@@ -1,13 +1,14 @@
 // src/app/(brand)/submissions/page.tsx
 import { api } from '@/lib/api';
+import { Submission } from '@/types';
 
 export default async function SubmissionApprovalPage() {
   // Fetch and sanitize data in Server Component
   const response = await api.get('/submissions?status=pending');
-  const submissions = response.data.map((sub) => ({
+  const submissions = response.data.map((sub: Submission) => ({
     ...sub,
     submissionDate: new Date(sub.submissionDate).toISOString(),
-    influencer: sub.influencerId ? { email: sub.influencerId.email } : null,
+    influencer: sub.influencer,
   }));
 
   return <ClientSubmissionApproval submissions={submissions} />;
@@ -15,7 +16,6 @@ export default async function SubmissionApprovalPage() {
 
 // Client Component
 'use client';
-import { Submission } from '@/types';
 
 export function ClientSubmissionApproval({
   submissions,

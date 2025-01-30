@@ -6,18 +6,7 @@ import { api } from '@/lib/api';
 import CampaignCard from '@/components/CampaignCard';
 
 
-export default async function CampaignListPage() {
-  // Fetch and sanitize data in Server Component
-  const response = await api.get('/campaigns/joined');
-  const campaigns = response.data.map((campaign) => ({
-    ...campaign,
-    deadline: new Date(campaign.deadline).toISOString(), // Convert Date to string
-  }));
-
-  return <ClientCampaignList campaigns={campaigns} />;
-}
-
-// Client Component (separate file)
+// Client Component
 'use client';
 import { Campaign } from '@/types';
 
